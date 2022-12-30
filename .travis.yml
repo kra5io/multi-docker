@@ -14,3 +14,10 @@ after_success:
   - docker build -t kra5io/multi-nginx ./nginx
   - docker build -t kra5io/multi-server ./server
   - docker build -t kra5io/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "#DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to dockerhub
+  - docker push kra5io/multi-client
+  - docker push kra5io/multi-nginx
+  - docker push kra5io/multi-server
+  - docker push kra5io/multi-worker
