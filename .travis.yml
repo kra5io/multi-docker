@@ -1,0 +1,16 @@
+language: generic 
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t kra5io/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true kra5io/react-test npm run test 
+
+after_success:
+  - docker build -t kra5io/multi-client ./client
+  - docker build -t kra5io/multi-nginx ./nginx
+  - docker build -t kra5io/multi-server ./server
+  - docker build -t kra5io/multi-worker ./worker
